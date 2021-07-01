@@ -1,21 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
+import 'react-native-gesture-handler';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import HomeScreen from './screens/HomeScreen';
+import BookDetails from './screens/BookDetails';
+import SplashScreen from './screens/SplashScreen';
 
-export default function App() {
+
+const Stack = createStackNavigator();
+
+
+
+export default function Root() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+
+
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Splash" screenOptions={{
+        headerStyle: {
+          backgroundColor: '#7c606b',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}>
+        <Stack.Screen name="Splash" component={SplashScreen}/>
+        <Stack.Screen name="HomeScreen" component={HomeScreen} />
+        <Stack.Screen name="BookDetails" component={BookDetails}/>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
