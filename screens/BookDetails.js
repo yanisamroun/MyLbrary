@@ -1,40 +1,44 @@
 import React from 'react'
-import { View, Text, ScrollView, StyleSheet, } from 'react-native'
+import { ScrollView, Text, Image, StyleSheet } from 'react-native'
 
-export default function PostDetailsScreen({route}) {
-    const book = route.params.book;
-    return (
-        
-        <View>
-            <ScrollView>
-            <Text style={styles.title}>{book.title}</Text>
-            <Text style={styles.body}>{book.body}</Text>
-            </ScrollView>
-            
-           
-        </View>
-        
-    )
+export default function BookDetails({route}) {
+  return (
+    <ScrollView style={styles.container}>
+     
+      <Text style={styles.title}>{route.params.name.volumeInfo.title}</Text>
+      <Text style={styles.author}>{route.params.name.volumeInfo.authors}</Text>
+      <Text style={styles.description}>{route.params.name.volumeInfo.description}</Text>
+      <Text style={styles.date}>Publié le : {route.params.name.volumeInfo.publishedDate}</Text>
+    </ScrollView>
+  )
 }
-
 const styles = StyleSheet.create({
-    
-    title:{
-      fontSize:20,
-      paddingBottom:10,
-      margin: 5,
-      marginTop: 5,
-      fontWeight: 'bold',
-      marginBottom: 5,
-      textDecorationLine:'underline',
-      
+    container: {
+      marginVertical: 30
     },
-    body:{
-    
-        textAlign:'left',
-        margin: 5,
-        fontSize:13,
-        fontWeight: '500',
+    title: {
+      
+      fontSize: 30,
+      textAlign: 'center',
+      textDecorationLine:'underline',
+    },
+    author: {
+      fontSize: 15,
+      textAlign: 'center',
+      marginTop: 10,
+      fontStyle: 'italic',
+    },
+    description: {
+      fontSize: 16,
+      marginHorizontal: 25,
+      marginVertical: 20
+    },
+    date: {
+      fontSize: 16,
+      position:'relative',
+      left:25,
+      fontStyle: 'italic',
+      
+      
     }
-   
-  });
+});

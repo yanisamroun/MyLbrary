@@ -11,21 +11,21 @@ const Stack = createStackNavigator();
 
 
 
-export default function Root() {
+export default function App() {
   return (
 
 
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Splash" screenOptions={{
         headerStyle: {
-          backgroundColor: '#7c606b',
+          backgroundColor: '#004455',
         },
-        headerTintColor: '#fff',
+        headerTintColor: '#ffff',
         headerTitleStyle: {
           fontWeight: 'bold',
         },
       }}>
-        <Stack.Screen name="Splash" component={SplashScreen}/>
+        <Stack.Screen name="Library" component={SplashScreen}/>
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen name="BookDetails" component={BookDetails}/>
       </Stack.Navigator>

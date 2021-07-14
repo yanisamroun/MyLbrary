@@ -1,87 +1,91 @@
-import React, {useState, useEffect, useRef} from 'react';
-import { FlatList, StyleSheet, Text, TextInput, View,} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { FlatList, StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import { ListItem } from 'react-native-elements';
+import { AntDesign } from '@expo/vector-icons';
 import axios from 'axios';
-import {ListItem} from 'react-native-elements';
-import SearchFilter from './SearchFilter';
 
 
-export default function HomeScreen({navigation}) {
-  const [books, setBooks] = useState([]);
-  const [librarys, setLabrarys] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  
+export default function LibraryScreen({navigation}) {
+  const [books, setBooks] = useState([])
+  const [search, setSearch] = useState("")
 
-  useEffect(() => {
-    axios.get('https://my.api.mockaroo.com/library?key=6ad86280')
+  const searchBook = () => {
+    axios.get(`https://www.googleapis.com/books/v1/volumes?q=${search}&key=AIzaSyCU2yWQoGxGeDfCO8HbGw9MWk2ejYKruIM`)
     .then(res => {
-      console.log(res.data);
-      setBooks(res.data);
+      setBooks(res.data.items);
     })
-  }, [])
-  
-  
+  }
 
-  return (
-    <View style={styles.container}>
-         
-      <View style={styles.formulairrr}>
-      
-      <SearchFilter/>
-     
+  const booksMaps = books.map(books => {
+    return (
+      <View>
+        <Text style={styles.bookTitle}>
+          {books.volumeInfo.title}
+        </Text>
       </View>
+    )
+  })
 
-      <FlatList
-      
-        data={books}
+  function goToBook(book) {
+    navigation.navigate('BookDetails', {
+      name: book,
+    });
+  }
 
-        renderItem={({item})=> (
-          <ListItem bottomDivider 
-            onPress={() => navigation.navigate('BookDetails',{
-              book: item
-            })}>
-          <ListItem.Content>
-            <ListItem.Title style={styles.title}>{item.title}</ListItem.Title>
-            <ListItem.Title style={styles.authors}>{item.authors}</ListItem.Title>
-            <ListItem.Title style={styles.synopsis}>{item.synopsis}</ListItem.Title>
-            <ListItem.Title style={styles.release}>{item.release}</ListItem.Title>
-           
-          </ListItem.Content>
-          <ListItem.Chevron />
-          </ListItem>)
-        }
+ 
+    return (
+       <View style={styles.container}>
+         <View style={styles.search}>
+          <TextInput style={styles.input} placeholder="Rechercher un livre"
+           onChangeText={(text) => {setSearch(text)}} />
+          <Button title="✓" color="#04ac8b"  onPress={searchBook} />
+        </View> 
+        <FlatList
+            style={styles.list}
+            data={books}
+            renderItem={({item})=> (
+              <ListItem  bottomDivider onPress={() => goToBook(item)}>
+                
+              <ListItem.Swipeable
+              leftContent={
+                <Button title="Info"/>
+              }
+              rightContent={
+                <Button
+                  title="Delete"
+                  icon={{ name: 'delete', color: 'white' }}
+                  buttonStyle={{ minHeight: '100%', backgroundColor: 'red' }}
+              />
+          }>
+            </ListItem.Swipeable>
+              <ListItem.Content>
+                <View >
+          
+                  <ListItem.Title style={styles.title}>{item.volumeInfo.title}</ListItem.Title>
+                  <ListItem.Title style={styles.authors}>{item.volumeInfo.authors}</ListItem.Title>
+                 
+                </View>
+              </ListItem.Content>
+              <ListItem.Chevron />
+              </ListItem>)
+            }
+            keyExtractor={item => item.id.toString()}
+          />
 
-        keyExtractor={item => item.id.toString()}
-      />
-    
-  </View>
-  )
-}
+                     
+      </View>
+    );
+  }
+
 
 const styles = StyleSheet.create({
   container: {
-
-    flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    height:800
   },
-  input: {
-  
-    width: 300,
-    borderWidth: 2,
-    borderColor: '#5e503f',
-    margin: 6,
-    position:'relative',
-    left: 5,
-  
-    
-  },
-  formulairrr: {
-    margin:1,
-    flexDirection: 'row',
-   
-  },
-  title:{
+  title: {
     fontWeight: 'bold',
-    color:'#7c606b',
+    color:'#04ac8b',
     textDecorationLine:'underline',
   },
   release:{
@@ -90,16 +94,34 @@ const styles = StyleSheet.create({
   },
   authors:{
     fontStyle: 'italic',
-    fontWeight:'400',
+    fontWeight:'300',
     
     color:'#4d4847',
     paddingBottom: 12,
   },
-  synopsis:{
-   
-    textAlign:'left',
-    paddingBottom:12,
-    fontWeight:'300',
+
+  list: {
+    height: 530
   },
- 
+  search: {
+    flexDirection: 'row',
+    padding: 20,
+    marginHorizontal: 10
+  },
+  input: {
+    borderWidth: 2,
+    borderColor: 'black',
+    width: 300,
+    textAlign: 'center',
+    fontSize: 16,
+    fontStyle:'italic',
+    
+  },
+  bookTitle: {
+    fontSize: 21,
+    marginTop: 20,
+    marginHorizontal: 2,
+    fontFamily: 'DancingScript'
+  },
+  
 });
