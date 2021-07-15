@@ -38,7 +38,7 @@ export default function LibraryScreen({navigation}) {
          <View style={styles.search}>
           <TextInput style={styles.input} placeholder="Rechercher un livre"
            onChangeText={(text) => {setSearch(text)}} />
-          <Button title="✓" color="#04ac8b"  onPress={searchBook} />
+          <Button title="✓" color="#df51fc"  onPress={searchBook} />
         </View> 
         <FlatList
             style={styles.list}
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: 'bold',
-    color:'#04ac8b',
+    color:'#86d6fc',
     textDecorationLine:'underline',
   },
   release:{
@@ -110,9 +110,9 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 2,
-    borderColor: 'black',
+    borderColor: 'grey',
     width: 300,
-    textAlign: 'center',
+    
     fontSize: 16,
     fontStyle:'italic',
     

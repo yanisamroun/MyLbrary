@@ -18,7 +18,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Splash" screenOptions={{
         headerStyle: {
-          backgroundColor: '#004455',
+          backgroundColor: '#86d6fc',
         },
         headerTintColor: '#ffff',
         headerTitleStyle: {
